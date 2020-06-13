@@ -1,11 +1,22 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # termux-reverse-ssh by ustcpetergu
 # License: GPLv3
+
+isdebug=1
+function loggen() {
+    if [[ $isdebug -ne 0 ]]; then
+        log -t trs -p $1 "$2"
+        echo -e "$2"
+    fi
+}
+
 . ~/.trs_config
 if [[ "$?" != "0" ]]; then
-    echo "Error loading config file. "
+    loggen e "Error loading config file. "
     exit 255
 fi
+
+echo $$ > ~/.trs_pid
 
 # launch termux sshd (port 8022)
 sshd &
